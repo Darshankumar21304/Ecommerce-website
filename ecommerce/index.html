@@ -74,7 +74,6 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg sticky-top shadow-sm py-3 mb-4">
     <div class="container">
       <a class="navbar-brand fw-bold fs-4 text-custom text-decoration-none" href="landing.html">
@@ -108,10 +107,8 @@
     </div>
   </nav>
 
-  <!-- MAIN CONTENT -->
   <main class="container py-2 py-md-4 flex-grow-1">
     
-    <!-- PROMO BANNERS (CAROUSEL) -->
     <div id="promoCarousel" class="carousel slide mb-5 rounded-4 shadow-sm overflow-hidden" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -119,7 +116,6 @@
         <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
       <div class="carousel-inner">
-        <!-- Banner 1 -->
         <div class="carousel-item active" data-bs-interval="4000">
           <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop" class="d-block w-100 banner-img" alt="Big Billion Sale">
           <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3 mb-4">
@@ -127,7 +123,6 @@
             <p class="text-light mb-0">Up to 60% off on top electronics and gadgets.</p>
           </div>
         </div>
-        <!-- Banner 2 -->
         <div class="carousel-item" data-bs-interval="4000">
           <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop" class="d-block w-100 banner-img" alt="Fashion Week">
           <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3 mb-4">
@@ -135,7 +130,6 @@
             <p class="text-light mb-0">Discover the minimalist collection for the modern wardrobe.</p>
           </div>
         </div>
-        <!-- Banner 3 -->
         <div class="carousel-item" data-bs-interval="4000">
           <img src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=1200&h=400&fit=crop" class="d-block w-100 banner-img" alt="Home Office Setup">
           <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3 mb-4">
@@ -154,7 +148,6 @@
       </button>
     </div>
 
-    <!-- FILTER & SEARCH -->
     <div class="d-flex flex-column mb-4 gap-3">
       <div><h2 id="page-title" class="fw-bold mb-1 text-dark">Featured Products</h2></div>
       
@@ -189,23 +182,19 @@
       </div>
     </div>
 
-    <!-- PRODUCT GRID -->
     <div class="row g-4" id="product-grid"></div>
 
-    <!-- NO RESULTS -->
     <div id="no-results" class="text-center py-5 d-none card border-0 shadow-sm">
       <h4 class="text-muted mb-3">No products found matching your search.</h4>
       <button class="btn btn-outline-secondary px-4 fw-bold rounded-pill" onclick="clearFilters()">Clear Filters</button>
     </div>
 
-    <!-- BROWSING HISTORY -->
     <div id="home-history-section" class="mt-5 pt-5 border-top d-none">
       <h3 class="fw-bold mb-4 text-dark">Your Browsing History</h3>
       <div class="row g-4" id="home-history-container"></div>
     </div>
   </main>
 
-  <!-- UNIVERSAL FOOTER -->
   <footer class="border-top mt-5 pt-5 pb-4 shadow-sm">
     <div class="container">
       <div class="row g-4">
@@ -245,8 +234,51 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="app.js"></script>
   <script>
+    // --- SWEETALERT OVERRIDE FOR ADD TO CART ---
+    // Overriding window.alert allows us to capture the default alert triggered by app.js's addToCart function
+    // and seamlessly display a beautiful SweetAlert Toast instead, without altering the core app.js.
+    window.alert = function(message) {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        icon: message.toLowerCase().includes('log in') ? 'warning' : 'success',
+        title: message,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        background: isDark ? '#1e1e1e' : '#fff',
+        color: isDark ? '#e0e0e0' : '#212529'
+      });
+    };
+
+    // --- SWEETALERT WRAPPER FOR WISHLIST ---
+    function handleToggleWishlist(id, name, price, img) {
+      toggleWishlist(id, name, price, img); // Call original function
+      
+      // Stop the toast from firing if the user isn't logged in (handled by requireAuth)
+      if (localStorage.getItem('lumina_logged_in') !== 'true') return;
+
+      let wishlist = JSON.parse(localStorage.getItem('lumina_wishlist')) || [];
+      const isAdded = wishlist.some(item => item.id === id);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      
+      Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        icon: isAdded ? 'success' : 'info',
+        title: isAdded ? `${name} added to wishlist!` : `${name} removed from wishlist!`,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        background: isDark ? '#1e1e1e' : '#fff',
+        color: isDark ? '#e0e0e0' : '#212529'
+      });
+    }
+
     const productGrid = document.getElementById('product-grid');
     const searchInput = document.getElementById('searchInput');
     const noResults = document.getElementById('no-results');
@@ -310,7 +342,7 @@
                   <div class="mt-auto d-flex justify-content-between align-items-center">
                     <span class="fs-6 fs-md-5 fw-bold text-dark">₹${product.price.toFixed(2)}</span>
                     <div>
-                      <button class="btn btn-light btn-sm px-2 me-1 border" onclick="toggleWishlist(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${img}')">
+                      <button class="btn btn-light btn-sm px-2 me-1 border" onclick="handleToggleWishlist(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${img}')">
                         <i id="wishlist-icon-${product.id}" class="bi ${heartClass}"></i>
                       </button>
                       <button class="btn btn-accent btn-sm px-2 px-md-3 fw-bold shadow-sm" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, '${img}')">Add</button>
