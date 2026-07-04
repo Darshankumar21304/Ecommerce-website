@@ -91,5 +91,45 @@ function updateBadges() {
   }
 }
 
-// Initialize badges on load
-document.addEventListener('DOMContentLoaded', updateBadges);
+// --- DARK MODE LOGIC ---
+function initTheme() {
+  // 1. Get the saved theme or default to light
+  const savedTheme = localStorage.getItem('lumina_theme') || 'light';
+  
+  // 2. Apply it to the HTML root
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+
+  // 3. Attach click listener to the toggle button
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      let currentTheme = document.documentElement.getAttribute('data-theme');
+      let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('lumina_theme', newTheme); // Save preference
+      updateThemeIcon(newTheme);
+    });
+  }
+}
+
+// Helper to switch the sun/moon icon based on active theme
+function updateThemeIcon(theme) {
+  const themeIcon = document.getElementById('theme-icon');
+  if (themeIcon) {
+    if (theme === 'dark') {
+      themeIcon.classList.remove('bi-moon-fill');
+      themeIcon.classList.add('bi-sun-fill');
+    } else {
+      themeIcon.classList.remove('bi-sun-fill');
+      themeIcon.classList.add('bi-moon-fill');
+    }
+  }
+}
+
+// Initialize badges and theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+  updateBadges();
+  initTheme();
+});
