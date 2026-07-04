@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina | My Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* FLIPKART INSPIRED THEME & RESPONSIVE CSS */
+    :root { 
+      --primary-accent: #2874f0; 
+      --primary-hover: #1c5ccb; 
+      --secondary-accent: #ff9f00;
+      --secondary-hover: #e08c00;
+      --bg-body: #f1f3f6; 
+      --text-main: #212121; 
+      --card-bg: #ffffff; 
+    }
+    [data-theme="dark"] { 
+      --primary-accent: #5389f4;
+      --primary-hover: #3b6bce;
+      --secondary-accent: #ffb03b;
+      --secondary-hover: #e09b33;
+      --bg-body: #121212; 
+      --text-main: #e0e0e0; 
+      --card-bg: #1e1e1e; 
+    }
+    
+    body, .card, .navbar, .form-control, a, button, footer, .list-group-item { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important; }
+    body { background:var(--bg-body)!important; color:var(--text-main)!important; font-family: 'Inter', sans-serif; }
+    .card, .navbar, .offcanvas, .dropdown-menu, .modal-content, footer, .list-group-item { background:var(--card-bg)!important; color:var(--text-main)!important; }
+    
+    .text-custom { color: var(--primary-accent) !important; }
+    .text-warning { color: #f59e0b !important; }
+    
+    .btn-custom { background-color: var(--primary-accent); color: white; transition: 0.2s ease; border: none; }
+    .btn-custom:hover { background-color: var(--primary-hover); color: white; }
+    .btn-outline-custom { border: 1px solid var(--primary-accent); color: var(--primary-accent); transition: 0.2s ease; }
+    .btn-outline-custom:hover { background-color: var(--primary-accent); color: white; }
+    
+    [data-theme="dark"] .text-dark { color: var(--text-main) !important; }
+    [data-theme="dark"] .text-muted { color: #adb5bd !important; }
+    [data-theme="dark"] .bg-light, [data-theme="dark"] .profile-input { background-color: #2a2a2a !important; color: var(--text-main) !important; border-color: #444 !important; }
+
+    @media (max-width: 991px) {
+      .navbar-collapse { background: var(--card-bg); padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: absolute; top: 100%; left: 10px; right: 10px; z-index: 1000; }
+      [data-theme="dark"] .navbar-collapse { box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+      [data-theme="dark"] #mobile-menu-icon { color: var(--text-main) !important; }
+    }
+
+    /* Profile Specific */
+    .profile-sidebar .list-group-item { border: none; padding: 14px 20px; font-weight: 600; border-radius: 0.75rem; margin-bottom: 6px; }
+    .profile-sidebar .list-group-item.active { background-color: rgba(40, 116, 240, 0.1) !important; color: var(--primary-accent) !important; border-left: 4px solid var(--primary-accent);}
+    [data-theme="dark"] .profile-sidebar .list-group-item.active { background-color: rgba(83, 137, 244, 0.15) !important; }
+    .profile-banner { height: 140px; background: linear-gradient(135deg, var(--primary-accent) 0%, #1c5ccb 100%); width: 100%; }
+    .profile-avatar-container { position: relative; display: inline-block; width: 130px; height: 130px; margin-top: -65px; }
+    .avatar-wrapper { width: 100%; height: 100%; overflow: hidden; position: relative; border: 5px solid white !important; box-shadow: 0 8px 25px rgba(0,0,0,0.1); background-color: var(--card-bg); }
+    [data-theme="dark"] .avatar-wrapper { border-color: var(--card-bg) !important; }
+    .avatar-edit-btn, .avatar-delete-btn { position: absolute; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 5; background: white; border: 1px solid #e5e7eb; }
+    .avatar-edit-btn { bottom: 0; right: -5px; color: var(--primary-accent); }
+    .avatar-delete-btn { top: 0; right: -5px; color: #ef4444; }
+    
+    .form-control.profile-input { border-radius: 0.75rem; transition: all 0.3s ease; }
+    .form-control.profile-input:focus { border-color: var(--primary-accent); box-shadow: 0 0 0 0.25rem rgba(40, 116, 240, 0.25); transform: translateY(-2px); }
+    textarea.form-control-plaintext { resize: none; overflow: hidden; }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm py-3 mb-4">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4 text-custom text-decoration-none" href="index.html">
+        <i class="bi bi-box-seam-fill me-1"></i> Lumina
+      </a>
+      <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#luminaNav">
+        <i class="bi bi-list fs-1 text-dark" id="mobile-menu-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="luminaNav">
+        <div class="d-flex flex-column flex-lg-row align-items-center ms-auto gap-4 mt-4 mt-lg-0 pb-3 pb-lg-0">
+          <a class="text-dark text-decoration-none fw-medium" href="index.html">Shop</a>
+          <a class="text-dark text-decoration-none fw-medium" href="categories.html">Categories</a>
+          <a class="text-dark text-decoration-none fw-medium" href="about.html">About</a>
+          <a class="text-dark text-decoration-none fw-medium" href="login.html">Login</a>
+          
+          <a href="wishlist.html" class="text-dark text-decoration-none position-relative fw-bold mt-2 mt-lg-0">
+            Wishlist <span id="wishlist-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+          </a>
+          <div class="d-flex flex-wrap align-items-center gap-3 mt-2 mt-lg-0 justify-content-center">
+            <a href="cart.html" class="btn btn-light position-relative border-0 fw-bold px-3">
+              🛒 Cart <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+            </a>
+            <a class="text-custom text-decoration-none d-none d-lg-inline-block fw-bold" href="profile.html"><i class="bi bi-person-circle fs-5"></i></a>
+            <a class="text-custom text-decoration-none fw-bold d-lg-none" href="profile.html">Profile</a>
+            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-circle px-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dark Mode">
+              <i id="theme-icon" class="bi bi-moon-fill"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container flex-grow-1 py-4">
+    <div class="row g-4 g-lg-5">
+      <div class="col-lg-3">
+        <div class="card border-0 p-3 profile-sidebar shadow-sm">
+          <div class="text-center mb-4 mt-3"><h5 class="fw-bold mb-0 text-dark">My Account</h5></div>
+          <div class="list-group list-group-flush gap-1">
+            <a href="#" id="tab-personal" class="list-group-item list-group-item-action active" onclick="switchTab('personal')"><i class="bi bi-person me-2 fs-5 align-middle"></i> Personal Info</a>
+            <a href="#" id="tab-orders" class="list-group-item list-group-item-action" onclick="switchTab('orders')"><i class="bi bi-box-seam me-2 fs-5 align-middle"></i> Order History</a>
+            <a href="login.html" class="list-group-item list-group-item-action text-danger mt-3" onclick="localStorage.removeItem('lumina_user');"><i class="bi bi-box-arrow-right me-2 fs-5 align-middle"></i> Log Out</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-9">
+        <div class="card border-0 p-0 shadow-sm">
+          <div class="profile-banner"></div>
+          
+          <div class="card-body p-4 p-md-5 pt-0">
+            <div id="personal-info-view">
+              <div class="text-center mb-5">
+                <div class="profile-avatar-container mb-3">
+                  <div class="avatar-wrapper rounded-circle d-flex justify-content-center align-items-center">
+                    <i class="bi bi-person text-secondary" id="defaultAvatarIcon" style="font-size: 4rem;"></i>
+                    <img src="" alt="Profile Image" id="profileImage" class="d-none w-100 h-100 object-fit-cover position-absolute top-0 start-0">
+                  </div>
+                  <div class="avatar-edit-btn d-none" id="avatarEditBtn" title="Update"><i class="bi bi-camera-fill"></i></div>
+                  <div class="avatar-delete-btn d-none" id="avatarDeleteBtn" title="Remove"><i class="bi bi-trash3-fill"></i></div>
+                </div>
+                <input type="file" id="avatarUpload" accept="image/*" class="d-none">
+                <h4 id="displayFullName" class="fw-bold mt-2 mb-1 text-dark">Your Name</h4>
+                <p id="displayEmail" class="text-muted">your.email@example.com</p>
+              </div>
+
+              <form id="profileForm">
+                <div class="row g-4">
+                  <div class="col-md-6"><label class="form-label text-muted fw-bold">First Name</label><input type="text" class="form-control border py-3 px-4 profile-input bg-light" id="firstName" placeholder="First Name" required></div>
+                  <div class="col-md-6"><label class="form-label text-muted fw-bold">Last Name</label><input type="text" class="form-control border py-3 px-4 profile-input bg-light" id="lastName" placeholder="Last Name" required></div>
+                  <div class="col-md-6"><label class="form-label text-muted fw-bold">Email Address</label><input type="email" class="form-control border py-3 px-4 profile-input bg-light" id="emailAddress" placeholder="name@example.com" required></div>
+                  <div class="col-md-6"><label class="form-label text-muted fw-bold">Phone</label><input type="tel" class="form-control border py-3 px-4 profile-input bg-light" id="phoneNumber" placeholder="10-digit mobile number" pattern="\d{10}"></div>
+                  <div class="col-12"><label class="form-label text-muted fw-bold">Shipping Address</label><textarea class="form-control border py-3 px-4 profile-input bg-light" id="bio" rows="3" placeholder="Full Shipping Address"></textarea></div>
+                </div>
+                <div id="viewModeActions" class="d-flex justify-content-end mt-5"><button type="button" id="editBtn" class="btn btn-outline-dark px-4 py-2 rounded-pill fw-bold text-dark border"><i class="bi bi-pencil me-2"></i>Edit Profile</button></div>
+                <div id="editModeActions" class="d-flex justify-content-end gap-3 mt-5 d-none">
+                  <button type="button" id="cancelBtn" class="btn btn-light px-4 py-2 rounded-pill fw-bold text-muted border">Cancel</button>
+                  <button type="submit" id="saveBtn" class="btn btn-custom px-5 fw-bold rounded-pill text-white">Save</button>
+                </div>
+              </form>
+            </div>
+
+            <div id="order-history-view" class="text-start mt-3 d-none">
+              <h4 class="fw-bold mb-4 text-dark">Order History</h4>
+              <div id="orders-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="border-top mt-5 pt-5 pb-4 shadow-sm">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="fw-bold text-custom mb-3"><i class="bi bi-box-seam-fill me-1"></i> Lumina</h5>
+          <p class="text-muted small pe-md-4">Your one-stop destination for premium, minimalist essentials. Redefining modern consumerism with carefully curated collections.</p>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">Shop</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="categories.html" class="text-muted text-decoration-none">All Categories</a></li>
+            <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Featured Products</a></li>
+            <li class="mb-2"><a href="cart.html" class="text-muted text-decoration-none">Your Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">About</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">Our Story</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Terms of Service</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" class="text-muted fs-5"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-top pt-3 mt-4 text-center small text-muted">
+        &copy; 2026 Lumina E-Commerce. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0 mt-2 mx-2"><h5 class="modal-title fw-bold text-dark">Leave Feedback</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body px-4 pt-2">
+          <p class="text-muted small mb-3">How was the <span id="feedbackItemName" class="fw-bold text-dark">Item</span>?</p>
+          <div class="mb-4 text-center fs-1 d-flex justify-content-center gap-2" id="starRating">
+            <i class="bi bi-star feedback-star text-muted" data-value="1"></i>
+            <i class="bi bi-star feedback-star text-muted" data-value="2"></i>
+            <i class="bi bi-star feedback-star text-muted" data-value="3"></i>
+            <i class="bi bi-star feedback-star text-muted" data-value="4"></i>
+            <i class="bi bi-star feedback-star text-muted" data-value="5"></i>
+          </div>
+          <div class="mb-3"><textarea class="form-control bg-light border py-2" id="feedbackComment" rows="3" placeholder="Tell us what you thought..."></textarea></div>
+        </div>
+        <div class="modal-footer border-0 pt-0 mx-2 mb-2 d-flex justify-content-between">
+          <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-custom rounded-pill px-4 fw-bold" id="submitFeedbackBtn">Submit Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const avatarEditBtn = document.getElementById('avatarEditBtn');
+    const avatarDeleteBtn = document.getElementById('avatarDeleteBtn');
+    const avatarUpload = document.getElementById('avatarUpload');
+    const defaultAvatarIcon = document.getElementById('defaultAvatarIcon');
+    const profileImage = document.getElementById('profileImage');
+    
+    let currentAvatarDataUrl = null; let isCurrentlyEditing = false; 
+
+    function displayAvatar(dataUrl) {
+      if (dataUrl) { defaultAvatarIcon.classList.add('d-none'); profileImage.src = dataUrl; profileImage.classList.remove('d-none'); if (isCurrentlyEditing) avatarDeleteBtn.classList.remove('d-none'); } 
+      else { defaultAvatarIcon.classList.remove('d-none'); profileImage.src = ''; profileImage.classList.add('d-none'); avatarDeleteBtn.classList.add('d-none'); }
+    }
+
+    avatarEditBtn.addEventListener('click', () => avatarUpload.click());
+    avatarDeleteBtn.addEventListener('click', () => { currentAvatarDataUrl = null; avatarUpload.value = ''; displayAvatar(null); });
+    avatarUpload.addEventListener('change', function() { const file = this.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(e) { currentAvatarDataUrl = e.target.result; displayAvatar(currentAvatarDataUrl); }; reader.readAsDataURL(file); } });
+
+    document.getElementById('phoneNumber').addEventListener('input', function (e) { this.value = this.value.replace(/\D/g, ''); });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedUser = JSON.parse(localStorage.getItem('lumina_user'));
+      if (savedUser) {
+        document.getElementById('displayFullName').textContent = savedUser.fullName; document.getElementById('displayEmail').textContent = savedUser.email;
+        const nameParts = savedUser.fullName.split(' ');
+        document.getElementById('firstName').value = nameParts[0] || ''; document.getElementById('lastName').value = nameParts.slice(1).join(' ') || ''; 
+        document.getElementById('emailAddress').value = savedUser.email; document.getElementById('phoneNumber').value = savedUser.phone || ''; document.getElementById('bio').value = savedUser.address || '';
+        if (savedUser.avatar) { currentAvatarDataUrl = savedUser.avatar; displayAvatar(currentAvatarDataUrl); }
+        toggleEditMode(false);
+      } else toggleEditMode(true);
+    });
+
+    const inputs = document.querySelectorAll('.profile-input');
+    function toggleEditMode(isEditing) {
+      isCurrentlyEditing = isEditing; 
+      if (isEditing) {
+        document.getElementById('viewModeActions').classList.add('d-none'); document.getElementById('editModeActions').classList.remove('d-none');
+        avatarEditBtn.classList.remove('d-none'); if (currentAvatarDataUrl) avatarDeleteBtn.classList.remove('d-none');
+        inputs.forEach(input => { input.removeAttribute('readonly'); input.classList.remove('form-control-plaintext', 'px-0', 'fw-bold', 'text-dark', 'fs-5'); input.classList.add('form-control', 'bg-light', 'py-3', 'px-4'); });
+      } else {
+        document.getElementById('editModeActions').classList.add('d-none'); document.getElementById('viewModeActions').classList.remove('d-none');
+        avatarEditBtn.classList.add('d-none'); avatarDeleteBtn.classList.add('d-none'); 
+        inputs.forEach(input => { input.setAttribute('readonly', true); input.classList.remove('form-control', 'bg-light', 'py-3', 'px-4'); input.classList.add('form-control-plaintext', 'px-0', 'fw-bold', 'text-dark', 'fs-5'); });
+      }
+    }
+
+    document.getElementById('editBtn').addEventListener('click', () => toggleEditMode(true));
+    document.getElementById('cancelBtn').addEventListener('click', () => toggleEditMode(false));
+
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const updatedUser = { fullName: `${document.getElementById('firstName').value.trim()} ${document.getElementById('lastName').value.trim()}`.trim(), email: document.getElementById('emailAddress').value.trim(), phone: document.getElementById('phoneNumber').value.trim(), address: document.getElementById('bio').value.trim(), avatar: currentAvatarDataUrl };
+      localStorage.setItem('lumina_user', JSON.stringify(updatedUser));
+      document.getElementById('displayFullName').textContent = updatedUser.fullName; document.getElementById('displayEmail').textContent = updatedUser.email;
+      toggleEditMode(false);
+    });
+
+    function switchTab(tab) {
+      if(tab === 'personal') { document.getElementById('tab-personal').classList.add('active'); document.getElementById('tab-orders').classList.remove('active'); document.getElementById('personal-info-view').classList.remove('d-none'); document.getElementById('order-history-view').classList.add('d-none'); } 
+      else if(tab === 'orders') { document.getElementById('tab-orders').classList.add('active'); document.getElementById('tab-personal').classList.remove('active'); document.getElementById('order-history-view').classList.remove('d-none'); document.getElementById('personal-info-view').classList.add('d-none'); renderOrders(); }
+    }
+
+    function renderOrders() {
+      const orders = JSON.parse(localStorage.getItem('lumina_orders')) || [];
+      if(orders.length === 0) { document.getElementById('orders-container').innerHTML = `<p class="text-muted py-5 text-center border rounded">No orders found.</p>`; return; }
+      document.getElementById('orders-container').innerHTML = orders.map((order, orderIndex) => `
+        <div class="card shadow-sm mb-4 border-0">
+          <div class="card-header bg-light d-flex justify-content-between py-3 px-4 border-0">
+            <div><span class="text-muted small d-block">Order Date</span><span class="fw-bold text-dark">${order.date}</span></div>
+            <div class="text-end"><span class="text-muted small d-block">Order ID</span><span class="fw-bold text-dark">${order.id}</span></div>
+          </div>
+          <div class="card-body px-4">
+            <ul class="list-group list-group-flush bg-transparent">
+              ${order.items.map((item, itemIndex) => `
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center flex-wrap gap-3 py-3 px-0 border-bottom">
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 10px;">
+                    <div><h6 class="mb-1 fw-bold text-dark">${item.name}</h6><span class="badge bg-light text-dark border">Qty: ${item.quantity || 1}</span></div>
+                  </div>
+                  <div class="d-flex align-items-center gap-3">
+                    <span class="fw-bold fs-5 text-dark">₹${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+                    ${item.feedback ? `<div class="badge bg-light text-dark border py-2 px-3"><i class="bi bi-star-fill text-warning"></i> ${item.feedback.rating}/5</div>` : `<button class="btn btn-sm btn-outline-custom rounded-pill px-4 fw-bold" onclick="openFeedbackModal(${orderIndex}, ${itemIndex}, '${item.name.replace(/'/g, "\\'")}')">Rate</button>`}
+                  </div>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let currentFeedbackOrder = null, currentFeedbackItem = null, currentRating = 0, feedbackModalInstance = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      feedbackModalInstance = new bootstrap.Modal(document.getElementById('feedbackModal'));
+      document.querySelectorAll('.feedback-star').forEach(star => { star.addEventListener('click', function() { currentRating = parseInt(this.getAttribute('data-value')); updateStars(currentRating); }); });
+      document.getElementById('submitFeedbackBtn').addEventListener('click', submitFeedback);
+    });
+
+    function updateStars(rating) {
+      document.querySelectorAll('.feedback-star').forEach(star => {
+        if(parseInt(star.getAttribute('data-value')) <= rating) { star.classList.replace('bi-star', 'bi-star-fill'); star.classList.replace('text-muted', 'text-warning'); } 
+        else { star.classList.replace('bi-star-fill', 'bi-star'); star.classList.replace('text-warning', 'text-muted'); }
+      });
+    }
+
+    function openFeedbackModal(orderIndex, itemIndex, itemName) { currentFeedbackOrder = orderIndex; currentFeedbackItem = itemIndex; currentRating = 0; updateStars(0); document.getElementById('feedbackItemName').textContent = itemName; document.getElementById('feedbackComment').value = ''; feedbackModalInstance.show(); }
+    function submitFeedback() {
+      if(currentRating === 0) return;
+      let orders = JSON.parse(localStorage.getItem('lumina_orders')) || [];
+      orders[currentFeedbackOrder].items[currentFeedbackItem].feedback = { rating: currentRating, comment: document.getElementById('feedbackComment').value };
+      localStorage.setItem('lumina_orders', JSON.stringify(orders)); feedbackModalInstance.hide(); renderOrders(); 
+    }
+  </script>
+</body>
+</html>

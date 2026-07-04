@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina | Product Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* FLIPKART INSPIRED THEME & RESPONSIVE CSS */
+    :root { 
+      --primary-accent: #2874f0; 
+      --primary-hover: #1c5ccb; 
+      --secondary-accent: #ff9f00;
+      --secondary-hover: #e08c00;
+      --bg-body: #f1f3f6; 
+      --text-main: #212121; 
+      --card-bg: #ffffff; 
+    }
+    [data-theme="dark"] { 
+      --primary-accent: #5389f4;
+      --primary-hover: #3b6bce;
+      --secondary-accent: #ffb03b;
+      --secondary-hover: #e09b33;
+      --bg-body: #121212; 
+      --text-main: #e0e0e0; 
+      --card-bg: #1e1e1e; 
+    }
+    
+    body, .card, .navbar, .form-control, a, button, footer { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important; }
+    body { background:var(--bg-body)!important; color:var(--text-main)!important; font-family: 'Inter', sans-serif; }
+    .card, .navbar, .offcanvas, .dropdown-menu, .modal-content, footer { background:var(--card-bg)!important; color:var(--text-main)!important; }
+    
+    .text-custom { color: var(--primary-accent) !important; }
+    
+    .btn-custom { background-color: var(--primary-accent); color: white; transition: 0.2s ease; border: none; }
+    .btn-custom:hover { background-color: var(--primary-hover); color: white; }
+    .btn-accent { background-color: var(--secondary-accent); color: white; transition: 0.2s ease; border: none; }
+    .btn-accent:hover { background-color: var(--secondary-hover); color: white; }
+    
+    [data-theme="dark"] .text-dark { color: var(--text-main) !important; }
+    [data-theme="dark"] .text-muted { color: #adb5bd !important; }
+    [data-theme="dark"] .bg-light { background-color: #2a2a2a !important; color: var(--text-main) !important; }
+    [data-theme="dark"] .form-control { background-color: #2a2a2a !important; color: var(--text-main) !important; border-color: #444 !important; }
+
+    @media (max-width: 991px) {
+      .navbar-collapse { background: var(--card-bg); padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: absolute; top: 100%; left: 10px; right: 10px; z-index: 1000; }
+      [data-theme="dark"] .navbar-collapse { box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+      [data-theme="dark"] #mobile-menu-icon { color: var(--text-main) !important; }
+    }
+
+    /* Product Detail Specific */
+    .main-image-container { overflow: hidden; border-radius: 12px; background-color: #fff; }
+    .main-image { width: 100%; height: 500px; object-fit: cover; transition: transform 0.4s ease; cursor: zoom-in; }
+    .main-image-container:hover .main-image { transform: scale(1.2); }
+    .thumbnail-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; }
+    .thumbnail-img.active { border-color: var(--primary-accent); opacity: 1; }
+    
+    .product-card { transition: transform 0.3s ease; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;}
+    [data-theme="dark"] .product-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important; }
+    
+    .product-image-container { overflow: hidden; height: 200px; }
+    .product-image { width: 100%; height: 100%; object-fit: cover; }
+    
+    #mobile-sticky-cart { transition: transform 0.3s ease; transform: translateY(100%); }
+    #mobile-sticky-cart.show { transform: translateY(0); }
+    [data-theme="dark"] #mobile-sticky-cart { background: var(--card-bg) !important; color: var(--text-main) !important; border-color: #333 !important;}
+
+    @media (max-width: 768px) { .main-image { height: 350px !important; } .product-image-container { height: 150px; } }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm py-3 mb-4">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4 text-custom text-decoration-none" href="index.html">
+        <i class="bi bi-box-seam-fill me-1"></i> Lumina
+      </a>
+      <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#luminaNav">
+        <i class="bi bi-list fs-1 text-dark" id="mobile-menu-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="luminaNav">
+        <div class="d-flex flex-column flex-lg-row align-items-center ms-auto gap-4 mt-4 mt-lg-0 pb-3 pb-lg-0">
+          <a class="text-dark text-decoration-none fw-medium" href="index.html">Shop</a>
+          <a class="text-dark text-decoration-none fw-medium" href="categories.html">Categories</a>
+          <a class="text-dark text-decoration-none fw-medium" href="about.html">About</a>
+          <a class="text-dark text-decoration-none fw-medium" href="login.html">Login</a>
+          
+          <a href="wishlist.html" class="text-dark text-decoration-none position-relative fw-bold mt-2 mt-lg-0">
+            Wishlist <span id="wishlist-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+          </a>
+          <div class="d-flex flex-wrap align-items-center gap-3 mt-2 mt-lg-0 justify-content-center">
+            <a href="cart.html" class="btn btn-light position-relative border-0 fw-bold px-3">
+              🛒 Cart <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+            </a>
+            <a class="text-dark text-decoration-none d-none d-lg-inline-block" href="profile.html"><i class="bi bi-person-circle fs-5"></i></a>
+            <a class="text-dark text-decoration-none fw-medium d-lg-none" href="profile.html">Profile</a>
+            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-circle px-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dark Mode">
+              <i id="theme-icon" class="bi bi-moon-fill"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-2 py-md-4 flex-grow-1">
+    <nav aria-label="breadcrumb" class="mb-4 d-none" id="breadcrumb-nav">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-muted">Shop</a></li>
+        <li class="breadcrumb-item"><a href="#" id="bc-category" class="text-decoration-none text-muted">Category</a></li>
+        <li class="breadcrumb-item active fw-bold text-dark" aria-current="page" id="bc-name">Product Name</li>
+      </ol>
+    </nav>
+
+    <div class="card border-0 shadow-sm p-4 p-md-5 mb-5">
+      <div id="skeleton-container" class="row g-5 placeholder-glow">
+        <div class="col-md-6"><div class="placeholder w-100 rounded" style="height: 400px; background-color: #e9ecef;"></div></div>
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+          <span class="placeholder col-3 mb-3 bg-secondary rounded py-2"></span>
+          <h1 class="placeholder col-8 mb-3 bg-dark rounded"></h1>
+          <p class="placeholder col-4 mb-4 bg-secondary rounded"></p>
+          <h2 class="placeholder col-3 mb-4 bg-primary rounded py-3"></h2>
+          <p class="placeholder col-12 mb-2 bg-secondary rounded"></p>
+          <div class="d-flex gap-3 mt-4">
+            <div class="placeholder col-8 py-4 rounded bg-primary"></div>
+            <div class="placeholder col-3 py-4 rounded bg-secondary"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="product-container" class="d-none"></div>
+    </div>
+    
+    <div id="reviews-section" class="mt-5 pt-4 border-top d-none">
+      <h3 class="fw-bold mb-4 text-dark">Customer Reviews</h3>
+      <div id="product-reviews-container"></div>
+    </div>
+
+    <div id="related-products-section" class="mt-5 pt-4 border-top d-none">
+      <h3 class="fw-bold mb-4 text-dark">You Might Also Like</h3>
+      <div class="row g-4" id="related-products-container"></div>
+    </div>
+  </main>
+
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="border-top mt-5 pt-5 pb-4 shadow-sm">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="fw-bold text-custom mb-3"><i class="bi bi-box-seam-fill me-1"></i> Lumina</h5>
+          <p class="text-muted small pe-md-4">Your one-stop destination for premium, minimalist essentials. Redefining modern consumerism with carefully curated collections.</p>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">Shop</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="categories.html" class="text-muted text-decoration-none">All Categories</a></li>
+            <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Featured Products</a></li>
+            <li class="mb-2"><a href="cart.html" class="text-muted text-decoration-none">Your Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">About</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">Our Story</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Terms of Service</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" class="text-muted fs-5"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-top pt-3 mt-4 text-center small text-muted">
+        &copy; 2026 Lumina E-Commerce. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <div class="fixed-bottom shadow-lg p-3 d-md-none border-top z-3" id="mobile-sticky-cart">
+    <div class="d-flex justify-content-between align-items-center" id="mobile-cart-content"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    window.changeMainImage = function(element, newSrc) {
+      document.getElementById('mainProductImage').src = newSrc;
+      document.querySelectorAll('.thumbnail-img').forEach(thumb => thumb.classList.remove('active'));
+      element.classList.add('active');
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get('id'));
+        const product = globalProducts.find(p => p.id === productId);
+        
+        if (product) {
+          let recentViews = JSON.parse(localStorage.getItem('lumina_recent')) || [];
+          recentViews = recentViews.filter(id => id !== product.id); recentViews.unshift(product.id); 
+          if (recentViews.length > 5) recentViews.pop(); 
+          localStorage.setItem('lumina_recent', JSON.stringify(recentViews));
+
+          document.getElementById('bc-category').textContent = product.category;
+          document.getElementById('bc-category').href = `index.html?category=${product.category}`;
+          document.getElementById('bc-name').textContent = product.name; document.title = `Lumina | ${product.name}`;
+          
+          let wishlist = JSON.parse(localStorage.getItem('lumina_wishlist')) || [];
+          const isInWishlist = wishlist.some(item => item.name === product.name);
+          const heartIconClass = isInWishlist ? 'bi-heart-fill text-danger' : 'bi-heart text-dark';
+          const galleryImages = product.images && product.images.length > 0 ? product.images : [product.image];
+          
+          let thumbnailsHTML = galleryImages.length > 1 ? `<div class="d-flex gap-3 mt-3 overflow-auto pb-2 px-1">${galleryImages.map((img, idx) => `<img src="${img}" class="thumbnail-img shadow-sm ${idx === 0 ? 'active' : ''}" onclick="changeMainImage(this, '${img}')">`).join('')}</div>` : '';
+
+          document.getElementById('product-container').innerHTML = `
+            <div class="row g-5 align-items-center">
+              <div class="col-md-6">
+                <div class="main-image-container shadow-sm bg-white"><img src="${galleryImages[0]}" id="mainProductImage" alt="${product.name}" class="main-image"></div>
+                ${thumbnailsHTML}
+              </div>
+              <div class="col-md-6">
+                <span class="badge bg-light text-dark border mb-3 px-3 py-2 fs-6">⭐ ${product.rating}</span>
+                <h1 class="fw-bold mb-2 text-dark">${product.name}</h1>
+                <p class="text-muted fs-5 mb-4">${product.category}</p>
+                <h2 class="text-custom fw-bold mb-4">₹${product.price.toFixed(2)}</h2>
+                <p class="text-muted lh-lg mb-5">Elevate your daily routine with the ${product.name}. Designed with a minimalist aesthetic and premium materials, it seamlessly blends form and function to bring simplicity to your modern lifestyle.</p>
+                <div class="d-flex gap-3">
+                  <button class="btn btn-accent flex-grow-1 py-3 fw-bold fs-5 shadow-sm text-white rounded-pill" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, document.getElementById('mainProductImage').src)"><i class="bi bi-cart-plus me-2"></i> Add to Cart</button>
+                  <button class="btn btn-light border px-4 rounded-pill" title="Wishlist" onclick="toggleWishlist(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, document.getElementById('mainProductImage').src)"><i id="wishlist-icon-${product.id}" class="bi ${heartIconClass} fs-5"></i></button>
+                </div>
+              </div>
+            </div>`;
+
+          document.getElementById('skeleton-container').classList.add('d-none');
+          document.getElementById('product-container').classList.remove('d-none');
+          document.getElementById('breadcrumb-nav').classList.remove('d-none');
+
+          document.getElementById('mobile-cart-content').innerHTML = `
+            <div>
+              <h6 class="fw-bold mb-0 text-truncate text-dark" style="max-width: 140px;">${product.name}</h6>
+              <span class="text-custom fw-bold small">₹${product.price.toFixed(2)}</span>
+            </div>
+            <button class="btn btn-accent px-4 fw-bold shadow-sm text-white rounded-pill" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, document.getElementById('mainProductImage').src)">Add to Cart</button>
+          `;
+          
+          window.addEventListener('scroll', () => {
+            const stickyCart = document.getElementById('mobile-sticky-cart');
+            if (window.scrollY > 400) stickyCart.classList.add('show'); else stickyCart.classList.remove('show');
+          });
+
+          // Reviews Code
+          document.getElementById('reviews-section').classList.remove('d-none');
+          const reviewsContainer = document.getElementById('product-reviews-container');
+          const orders = JSON.parse(localStorage.getItem('lumina_orders')) || [];
+          let productReviews = [];
+          orders.forEach(o => o.items.forEach(i => { if (i.name === product.name && i.feedback) productReviews.push({ rating: i.feedback.rating, comment: i.feedback.comment, date: o.date }); }));
+          
+          if (productReviews.length > 0) {
+            reviewsContainer.innerHTML = productReviews.map(review => `
+              <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body p-4">
+                  <div class="d-flex justify-content-between mb-3">
+                    <div><h6 class="fw-bold mb-1 text-dark">Verified Customer</h6><span class="text-warning fs-6">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span></div>
+                    <span class="text-muted small">${review.date}</span>
+                  </div>
+                  <p class="mb-0 text-dark">${review.comment || '<i class="text-muted">No comment provided.</i>'}</p>
+                </div>
+              </div>`).join('');
+          } else {
+            reviewsContainer.innerHTML = '<p class="text-muted p-4 rounded text-center card border-0 shadow-sm">No reviews yet for this product. Purchase this item to leave a review!</p>';
+          }
+
+          // Related Products
+          let related = globalProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+          if (related.length > 0) {
+            document.getElementById('related-products-section').classList.remove('d-none');
+            document.getElementById('related-products-container').innerHTML = related.map(item => {
+              const displayImage = (item.images && item.images.length > 0) ? item.images[0] : item.image;
+              return `<div class="col-6 col-md-4">
+                  <div class="card h-100 border-0 shadow-sm product-card">
+                    <a href="product-detail.html?id=${item.id}" class="text-decoration-none">
+                      <div class="product-image-container" style="height:150px;"><img src="${displayImage}" class="product-image"></div>
+                    </a>
+                    <div class="card-body p-2 p-md-3 d-flex flex-column">
+                      <a href="product-detail.html?id=${item.id}" class="text-decoration-none text-dark"><h6 class="card-title fw-bold mb-1 text-truncate">${item.name}</h6></a>
+                      <div class="mt-auto d-flex justify-content-between align-items-center pt-2">
+                        <span class="text-custom fw-bold fs-6">₹${item.price.toFixed(2)}</span>
+                        <button class="btn btn-sm btn-outline-custom fw-bold px-2 px-md-3 rounded-pill" onclick="addToCart('${item.name.replace(/'/g, "\\'")}', ${item.price}, '${displayImage}')">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>`;
+            }).join('');
+          }
+        } else {
+          document.getElementById('skeleton-container').classList.add('d-none'); 
+          document.getElementById('error-container').classList.remove('d-none');
+        }
+      }, 400); 
+    });
+  </script>
+</body>
+</html>

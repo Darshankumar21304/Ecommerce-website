@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina | Welcome</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* FLIPKART INSPIRED THEME & RESPONSIVE CSS */
+    :root { 
+      --primary-accent: #2874f0; 
+      --primary-hover: #1c5ccb; 
+      --secondary-accent: #ff9f00;
+      --secondary-hover: #e08c00;
+      --bg-body: #f1f3f6; 
+      --text-main: #212121; 
+      --card-bg: #ffffff; 
+    }
+    
+    body { background:var(--bg-body)!important; color:var(--text-main)!important; font-family: 'Inter', sans-serif; }
+    
+    .text-custom { color: var(--primary-accent) !important; }
+    
+    .btn-custom { background-color: var(--primary-accent); color: white; transition: 0.2s ease; border: none; }
+    .btn-custom:hover { background-color: var(--primary-hover); color: white; transform: translateY(-2px); }
+    
+    .hero-section {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+    }
+    
+    .feature-icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: rgba(40, 116, 240, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem auto;
+      color: var(--primary-accent);
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-white">
+
+  <!-- MINIMAL NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-white py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-3 text-custom text-decoration-none mx-auto mx-lg-0" href="landing.html">
+        <i class="bi bi-box-seam-fill me-2"></i>Lumina
+      </a>
+      <div class="d-none d-lg-flex gap-4">
+        <a class="text-dark text-decoration-none fw-medium" href="index.html">Shop</a>
+        <a class="text-dark text-decoration-none fw-medium" href="about.html">About Us</a>
+        <a class="text-dark text-decoration-none fw-medium" href="login.html">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LANDING PAGE HERO -->
+  <main class="flex-grow-1">
+    <div class="container hero-section">
+      <div class="row align-items-center w-100 mx-0 g-5">
+        <div class="col-lg-6 order-2 order-lg-1 text-center text-lg-start">
+          <span class="badge px-3 py-2 rounded-pill mb-3 text-white fw-bold shadow-sm" style="background-color: var(--secondary-accent);">
+            Premium Quality, Unbeatable Price
+          </span>
+          <h1 class="display-3 fw-bold text-dark mb-4 lh-sm">Upgrade Your <br><span class="text-custom">Lifestyle</span> Today</h1>
+          <p class="text-muted fs-5 mb-5 pe-lg-5">
+            Discover our highly curated collection of premium tech, minimalist accessories, and apparel. Everything you need to redefine modern consumerism.
+          </p>
+          <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+            <a href="index.html" class="btn btn-custom px-5 py-3 fw-bold rounded-pill shadow-sm fs-5">
+              Start Shopping <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+            <a href="categories.html" class="btn btn-outline-secondary px-5 py-3 fw-bold rounded-pill fs-5">
+              Browse Categories
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 text-center">
+          <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800" class="img-fluid rounded-4 shadow-lg" alt="Lumina Lifestyle Promo">
+        </div>
+      </div>
+    </div>
+
+    <!-- VALUE PROPOSITIONS -->
+    <div class="bg-light py-5">
+      <div class="container py-4">
+        <div class="row g-4 text-center">
+          <div class="col-md-4">
+            <div class="feature-icon-box">
+              <i class="bi bi-truck"></i>
+            </div>
+            <h5 class="fw-bold text-dark">Fast Delivery</h5>
+            <p class="text-muted small">Get your orders delivered swiftly and securely to your doorstep within 48 hours.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-icon-box">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h5 class="fw-bold text-dark">Secure Payments</h5>
+            <p class="text-muted small">100% secure payment gateways ensuring your financial details are always safe.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-icon-box">
+              <i class="bi bi-arrow-return-left"></i>
+            </div>
+            <h5 class="fw-bold text-dark">Easy Returns</h5>
+            <p class="text-muted small">Not satisfied? Return your purchase within 30 days for a hassle-free full refund.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MINIMAL FOOTER -->
+  <footer class="bg-white py-4 border-top">
+    <div class="container text-center">
+      <p class="text-muted small mb-0">&copy; 2026 Lumina E-Commerce. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

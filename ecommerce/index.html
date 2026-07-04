@@ -5,120 +5,363 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lumina | Shop</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    :root { --primary-accent: #4f46e5; --primary-hover: #4338ca; }
-    body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #212529; }
+    /* FLIPKART INSPIRED THEME & RESPONSIVE CSS */
+    :root { 
+      --primary-accent: #2874f0; 
+      --primary-hover: #1c5ccb; 
+      --secondary-accent: #ff9f00;
+      --secondary-hover: #e08c00;
+      --bg-body: #f1f3f6; 
+      --text-main: #212121; 
+      --card-bg: #ffffff; 
+    }
+    [data-theme="dark"] { 
+      --primary-accent: #5389f4;
+      --primary-hover: #3b6bce;
+      --secondary-accent: #ffb03b;
+      --secondary-hover: #e09b33;
+      --bg-body: #121212; 
+      --text-main: #e0e0e0; 
+      --card-bg: #1e1e1e; 
+    }
+    
+    body, .card, .navbar, .form-control, a, button, footer { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important; }
+    body { background:var(--bg-body)!important; color:var(--text-main)!important; font-family: 'Inter', sans-serif; }
+    .card, .navbar, .offcanvas, .dropdown-menu, .modal-content, footer { background:var(--card-bg)!important; color:var(--text-main)!important; }
+    
     .text-custom { color: var(--primary-accent) !important; }
+    
+    /* Buttons */
     .btn-custom { background-color: var(--primary-accent); color: white; transition: 0.2s ease; border: none; }
     .btn-custom:hover { background-color: var(--primary-hover); color: white; }
+    .btn-accent { background-color: var(--secondary-accent); color: white; transition: 0.2s ease; border: none; }
+    .btn-accent:hover { background-color: var(--secondary-hover); color: white; }
     
-    .product-card { transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+    [data-theme="dark"] .text-dark { color: var(--text-main) !important; }
+    [data-theme="dark"] .text-muted { color: #adb5bd !important; }
+    [data-theme="dark"] .bg-light { background-color: #2a2a2a !important; color: var(--text-main) !important; }
+    [data-theme="dark"] .form-control { background-color: #2a2a2a !important; color: var(--text-main) !important; border-color: #444 !important; }
+    [data-theme="dark"] .form-control::placeholder { color: #888 !important; }
+    [data-theme="dark"] .input-group-text { background-color: #2a2a2a !important; color: var(--text-main) !important; border-color: #444 !important; }
+
+    @media (max-width: 991px) {
+      .navbar-collapse { background: var(--card-bg); padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: absolute; top: 100%; left: 10px; right: 10px; z-index: 1000; }
+      [data-theme="dark"] .navbar-collapse { box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+      [data-theme="dark"] #mobile-menu-icon { color: var(--text-main) !important; }
+    }
+
+    /* Index Specific */
+    .product-card { cursor: pointer; }
     .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
-    .product-image-container { overflow: hidden; height: 250px; }
-    .product-image { transition: transform 0.5s ease; width: 100%; height: 100%; object-fit: cover; }
+    [data-theme="dark"] .product-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important; }
+    
+    .product-image-container { overflow: hidden; height: 250px; border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;}
+    .product-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;}
     .product-card:hover .product-image { transform: scale(1.05); }
+    
+    .search-input-container { max-width: 600px; width: 100%; }
+    .filter-btn { background-color: white; border: 2px solid #dee2e6; color: #495057; text-align: left; }
+    [data-theme="dark"] .filter-btn { background-color: var(--card-bg); color: var(--text-main); border-color: #444; }
+    
+    .banner-img { height: 300px; object-fit: cover; }
+    @media (max-width: 768px) { 
+      .product-image-container { height: 180px; }
+      .banner-img { height: 180px; } 
+    }
   </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-  <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3 mb-5">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm py-3 mb-4">
     <div class="container">
-      <a class="navbar-brand fw-bold fs-4 text-dark text-decoration-none" href="index.html">Lumina</a>
-      <div class="d-flex align-items-center ms-auto gap-4">
-        <a class="text-custom fw-bold text-decoration-none" href="index.html">Shop</a>
-        <a class="text-dark text-decoration-none" href="categories.html">Categories</a>
-        <a class="text-dark text-decoration-none" href="about.html">About</a>
-        <a href="cart.html" class="btn btn-light position-relative border-0 fw-bold">
-          🛒 Cart
-          <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
-        </a>
+      <a class="navbar-brand fw-bold fs-4 text-custom text-decoration-none" href="landing.html">
+        <i class="bi bi-box-seam-fill me-1"></i> Lumina
+      </a>
+      <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#luminaNav">
+        <i class="bi bi-list fs-1 text-dark" id="mobile-menu-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="luminaNav">
+        <div class="d-flex flex-column flex-lg-row align-items-center ms-auto gap-4 mt-4 mt-lg-0 pb-3 pb-lg-0">
+          <a class="text-custom text-decoration-none fw-bold" href="index.html">Shop</a>
+          <a class="text-dark text-decoration-none fw-medium" href="categories.html">Categories</a>
+          <a class="text-dark text-decoration-none fw-medium" href="about.html">About</a>
+          <a class="text-dark text-decoration-none fw-medium" href="login.html">Login</a>
+          
+          <a href="wishlist.html" class="text-dark text-decoration-none position-relative fw-bold mt-2 mt-lg-0">
+            Wishlist <span id="wishlist-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+          </a>
+          <div class="d-flex flex-wrap align-items-center gap-3 mt-2 mt-lg-0 justify-content-center">
+            <a href="cart.html" class="btn btn-light position-relative border-0 fw-bold px-3">
+              🛒 Cart <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+            </a>
+            <a class="text-dark text-decoration-none d-none d-lg-inline-block" href="profile.html"><i class="bi bi-person-circle fs-5"></i></a>
+            <a class="text-dark text-decoration-none fw-medium d-lg-none" href="profile.html">Profile</a>
+            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-circle px-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dark Mode">
+              <i id="theme-icon" class="bi bi-moon-fill"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
 
-  <main class="container py-4">
-    <h2 class="fw-bold mb-4">Featured Products</h2>
-    <div class="row g-4">
+  <!-- MAIN CONTENT -->
+  <main class="container py-2 py-md-4 flex-grow-1">
+    
+    <!-- PROMO BANNERS (CAROUSEL) -->
+    <div id="promoCarousel" class="carousel slide mb-5 rounded-4 shadow-sm overflow-hidden" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <!-- Banner 1 -->
+        <div class="carousel-item active" data-bs-interval="4000">
+          <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop" class="d-block w-100 banner-img" alt="Big Billion Sale">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3 mb-4">
+            <h3 class="fw-bold text-white mb-1">Big Billion Sale</h3>
+            <p class="text-light mb-0">Up to 60% off on top electronics and gadgets.</p>
+          </div>
+        </div>
+        <!-- Banner 2 -->
+        <div class="carousel-item" data-bs-interval="4000">
+          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop" class="d-block w-100 banner-img" alt="Fashion Week">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3 mb-4">
+            <h3 class="fw-bold text-white mb-1">Apparel New Arrivals</h3>
+            <p class="text-light mb-0">Discover the minimalist collection for the modern wardrobe.</p>
+          </div>
+        </div>
+        <!-- Banner 3 -->
+        <div class="carousel-item" data-bs-interval="4000">
+          <img src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=1200&h=400&fit=crop" class="d-block w-100 banner-img" alt="Home Office Setup">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3 mb-4">
+            <h3 class="fw-bold text-white mb-1">Work From Home Essentials</h3>
+            <p class="text-light mb-0">Upgrade your workspace with premium accessories.</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <!-- FILTER & SEARCH -->
+    <div class="d-flex flex-column mb-4 gap-3">
+      <div><h2 id="page-title" class="fw-bold mb-1 text-dark">Featured Products</h2></div>
       
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm product-card">
-          <div class="product-image-container">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="product-image" alt="Watch">
-          </div>
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h6 class="card-title fw-bold mb-0">Minimalist Watch</h6>
-              <span class="badge bg-light text-dark border">⭐ 4.8</span>
-            </div>
-            <p class="text-muted small mb-3">Accessories</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="fs-5 fw-bold text-dark">₹199.00</span>
-              <button class="btn btn-custom btn-sm px-3" onclick="addToCart('Minimalist Watch', 199, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400')">Add to Cart</button>
-            </div>
-          </div>
+      <div class="input-group shadow-sm search-input-container">
+        <span class="input-group-text border-end-0 py-2 bg-white"><i class="bi bi-search"></i></span>
+        <input type="text" id="searchInput" class="form-control border-start-0 ps-0 py-2 fs-5 bg-white" placeholder="Search by name or category...">
+      </div>
+      
+      <div class="d-flex gap-3 flex-wrap mt-2">
+        <div class="dropdown flex-grow-1 flex-md-grow-0">
+          <button class="btn filter-btn fw-medium py-2 px-3 d-flex align-items-center w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 220px;">
+            <i class="bi bi-grid text-muted me-2"></i> <span id="categoryLabel">All Categories</span> <i class="bi bi-chevron-down ms-auto ms-3 small"></i>
+          </button>
+          <ul class="dropdown-menu w-100 shadow-sm border-0">
+            <li><a class="dropdown-item category-option active" href="#" data-value="all">All Categories</a></li>
+            <li><a class="dropdown-item category-option" href="#" data-value="Accessories">Accessories</a></li>
+            <li><a class="dropdown-item category-option" href="#" data-value="Tech">Tech</a></li>
+            <li><a class="dropdown-item category-option" href="#" data-value="Apparel">Apparel</a></li>
+            <li><a class="dropdown-item category-option" href="#" data-value="Home Office">Home Office</a></li>
+          </ul>
+        </div>
+        <div class="dropdown flex-grow-1 flex-md-grow-0">
+          <button class="btn filter-btn fw-medium py-2 px-3 d-flex align-items-center w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 220px;">
+            <i class="bi bi-sort-down text-muted me-2"></i> <span id="sortLabel">Sort: Recommended</span> <i class="bi bi-chevron-down ms-auto ms-3 small"></i>
+          </button>
+          <ul class="dropdown-menu w-100 shadow-sm border-0">
+            <li><a class="dropdown-item sort-option active" href="#" data-value="default">Sort: Recommended</a></li>
+            <li><a class="dropdown-item sort-option" href="#" data-value="low">Price: Low to High</a></li>
+            <li><a class="dropdown-item sort-option" href="#" data-value="high">Price: High to Low</a></li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm product-card">
-          <div class="product-image-container">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="product-image" alt="Headphones">
-          </div>
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h6 class="card-title fw-bold mb-0">ANC Headphones</h6>
-              <span class="badge bg-light text-dark border">⭐ 4.9</span>
-            </div>
-            <p class="text-muted small mb-3">Tech</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="fs-5 fw-bold text-dark">₹299.00</span>
-              <button class="btn btn-custom btn-sm px-3" onclick="addToCart('ANC Headphones', 299, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400')">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- PRODUCT GRID -->
+    <div class="row g-4" id="product-grid"></div>
 
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm product-card">
-          <div class="product-image-container">
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" class="product-image" alt="T-Shirt">
-          </div>
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h6 class="card-title fw-bold mb-0">Cotton T-Shirt</h6>
-              <span class="badge bg-light text-dark border">⭐ 4.5</span>
-            </div>
-            <p class="text-muted small mb-3">Clothing</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="fs-5 fw-bold text-dark">₹335.00</span>
-              <button class="btn btn-custom btn-sm px-3" onclick="addToCart('Cotton T-Shirt', 35, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400')">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- NO RESULTS -->
+    <div id="no-results" class="text-center py-5 d-none card border-0 shadow-sm">
+      <h4 class="text-muted mb-3">No products found matching your search.</h4>
+      <button class="btn btn-outline-secondary px-4 fw-bold rounded-pill" onclick="clearFilters()">Clear Filters</button>
+    </div>
 
+    <!-- BROWSING HISTORY -->
+    <div id="home-history-section" class="mt-5 pt-5 border-top d-none">
+      <h3 class="fw-bold mb-4 text-dark">Your Browsing History</h3>
+      <div class="row g-4" id="home-history-container"></div>
     </div>
   </main>
 
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="border-top mt-5 pt-5 pb-4 shadow-sm">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="fw-bold text-custom mb-3"><i class="bi bi-box-seam-fill me-1"></i> Lumina</h5>
+          <p class="text-muted small pe-md-4">Your one-stop destination for premium, minimalist essentials. Redefining modern consumerism with carefully curated collections.</p>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">Shop</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="categories.html" class="text-muted text-decoration-none">All Categories</a></li>
+            <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Featured Products</a></li>
+            <li class="mb-2"><a href="cart.html" class="text-muted text-decoration-none">Your Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">About</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">Our Story</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Terms of Service</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" class="text-muted fs-5"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-top pt-3 mt-4 text-center small text-muted">
+        &copy; 2026 Lumina E-Commerce. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
   <script>
-    function updateBadge() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      let badge = document.getElementById('cart-badge');
-      if (cart.length > 0) {
-        badge.innerText = cart.length;
-        badge.classList.remove('d-none');
+    const productGrid = document.getElementById('product-grid');
+    const searchInput = document.getElementById('searchInput');
+    const noResults = document.getElementById('no-results');
+    let currentCategory = 'all'; let currentSort = 'default';
+
+    searchInput.addEventListener('input', applyFilters);
+
+    document.querySelectorAll('.category-option').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.category-option').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+        currentCategory = this.getAttribute('data-value');
+        document.getElementById('categoryLabel').textContent = this.textContent;
+        applyFilters();
+      });
+    });
+
+    document.querySelectorAll('.sort-option').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.sort-option').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+        currentSort = this.getAttribute('data-value');
+        document.getElementById('sortLabel').textContent = this.textContent;
+        applyFilters();
+      });
+    });
+
+    function applyFilters() {
+      let filtered = [...globalProducts];
+      const searchTerm = searchInput.value.toLowerCase();
+      if (searchTerm) { filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm) || p.category.toLowerCase().includes(searchTerm)); }
+      if (currentCategory !== 'all') { filtered = filtered.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase()); }
+      if (currentSort === 'low') { filtered.sort((a, b) => a.price - b.price); } 
+      else if (currentSort === 'high') { filtered.sort((a, b) => b.price - a.price); } 
+      document.getElementById('page-title').textContent = currentCategory === 'all' ? (searchTerm ? "Search Results" : "Featured Products") : `${document.getElementById('categoryLabel').textContent} Collection`;
+      renderProducts(filtered);
+    }
+
+    function renderProducts(itemsToRender) {
+      productGrid.innerHTML = ''; 
+      let wishlist = JSON.parse(localStorage.getItem('lumina_wishlist')) || [];
+      if (itemsToRender.length === 0) {
+        noResults.classList.remove('d-none'); 
+      } else {
+        noResults.classList.add('d-none'); 
+        itemsToRender.forEach(product => {
+          const heartClass = wishlist.some(item => item.name === product.name) ? 'bi-heart-fill text-danger' : 'bi-heart text-dark';
+          const img = (product.images && product.images.length > 0) ? product.images[0] : product.image;
+
+          productGrid.innerHTML += `
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card h-100 border-0 shadow-sm product-card">
+                <a href="product-detail.html?id=${product.id}" class="text-decoration-none">
+                  <div class="product-image-container"><img src="${img}" class="product-image" alt="${product.name}"></div>
+                </a>
+                <div class="card-body d-flex flex-column p-2 p-md-3">
+                  <a href="product-detail.html?id=${product.id}" class="text-decoration-none text-dark"><h6 class="card-title fw-bold mb-1 text-truncate">${product.name}</h6></a>
+                  <p class="text-muted small mb-3">${product.category}</p>
+                  <div class="mt-auto d-flex justify-content-between align-items-center">
+                    <span class="fs-6 fs-md-5 fw-bold text-dark">₹${product.price.toFixed(2)}</span>
+                    <div>
+                      <button class="btn btn-light btn-sm px-2 me-1 border" onclick="toggleWishlist(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${img}')">
+                        <i id="wishlist-icon-${product.id}" class="bi ${heartClass}"></i>
+                      </button>
+                      <button class="btn btn-accent btn-sm px-2 px-md-3 fw-bold shadow-sm" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, '${img}')">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        });
       }
     }
 
-    function addToCart(name, price, img) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ name: name, price: price, img: img });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateBadge();
-      alert(name + " added to cart!");
+    function renderBrowsingHistory() {
+      const recentViews = JSON.parse(localStorage.getItem('lumina_recent')) || [];
+      if (recentViews.length > 0) {
+        const historyProducts = recentViews.map(id => globalProducts.find(p => p.id === id)).filter(Boolean);
+        if (historyProducts.length > 0) {
+          document.getElementById('home-history-section').classList.remove('d-none');
+          document.getElementById('home-history-container').innerHTML = historyProducts.map(product => {
+            const img = (product.images && product.images.length > 0) ? product.images[0] : product.image;
+            return `
+              <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                  <a href="product-detail.html?id=${product.id}" class="text-decoration-none">
+                    <div class="product-image-container" style="height:150px;"><img src="${img}" class="product-image"></div>
+                  </a>
+                  <div class="card-body p-2 p-md-3 flex-column d-flex">
+                    <h6 class="fw-bold text-dark mb-1 text-truncate">${product.name}</h6>
+                    <div class="d-flex justify-content-between align-items-center pt-2 mt-auto">
+                      <span class="fw-bold text-dark">₹${product.price.toFixed(2)}</span>
+                      <button class="btn btn-sm btn-accent fw-bold px-3 rounded-pill shadow-sm" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, '${img}')">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
+          }).join('');
+        }
+      }
     }
 
-    updateBadge();
+    function clearFilters() {
+      searchInput.value = ''; currentCategory = 'all'; currentSort = 'default';
+      applyFilters();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const cat = new URLSearchParams(window.location.search).get('category');
+      if (cat) { const target = document.querySelector(`.category-option[data-value="${cat}"]`); if(target) target.click(); } 
+      else applyFilters();
+      renderBrowsingHistory();
+    });
   </script>
 </body>
 </html>

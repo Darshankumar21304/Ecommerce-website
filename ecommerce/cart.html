@@ -5,101 +5,470 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lumina | Cart</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    :root { --primary-accent: #4f46e5; --primary-hover: #4338ca; }
-    body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #212529; }
+    /* FLIPKART INSPIRED THEME & RESPONSIVE CSS */
+    :root { 
+      --primary-accent: #2874f0; 
+      --primary-hover: #1c5ccb; 
+      --secondary-accent: #ff9f00;
+      --secondary-hover: #e08c00;
+      --bg-body: #f1f3f6; 
+      --text-main: #212121; 
+      --card-bg: #ffffff; 
+    }
+    [data-theme="dark"] { 
+      --primary-accent: #5389f4;
+      --primary-hover: #3b6bce;
+      --secondary-accent: #ffb03b;
+      --secondary-hover: #e09b33;
+      --bg-body: #121212; 
+      --text-main: #e0e0e0; 
+      --card-bg: #1e1e1e; 
+    }
+    
+    body, .card, .navbar, .form-control, a, button, footer { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important; }
+    body { background:var(--bg-body)!important; color:var(--text-main)!important; font-family: 'Inter', sans-serif; }
+    .card, .navbar, .offcanvas, .dropdown-menu, .modal-content, footer { background:var(--card-bg)!important; color:var(--text-main)!important; }
+    
+    .text-custom { color: var(--primary-accent) !important; }
+    
     .btn-custom { background-color: var(--primary-accent); color: white; transition: 0.2s ease; border: none; }
     .btn-custom:hover { background-color: var(--primary-hover); color: white; }
+    .btn-accent { background-color: var(--secondary-accent); color: white; transition: 0.2s ease; border: none; }
+    .btn-accent:hover { background-color: var(--secondary-hover); color: white; }
+    
+    [data-theme="dark"] .text-dark { color: var(--text-main) !important; }
+    [data-theme="dark"] .text-muted { color: #adb5bd !important; }
+    [data-theme="dark"] .bg-light { background-color: #2a2a2a !important; color: var(--text-main) !important; }
+    [data-theme="dark"] .form-control { background-color: #2a2a2a !important; color: var(--text-main) !important; border-color: #444 !important; }
+    [data-theme="dark"] .form-control::placeholder { color: #888 !important; }
+    [data-theme="dark"] .alert-success { background-color: #1a3a2a !important; color: #4ade80 !important; border-color: #1a3a2a !important; }
+
+    @media (max-width: 991px) {
+      .navbar-collapse { background: var(--card-bg); padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: absolute; top: 100%; left: 10px; right: 10px; z-index: 1000; }
+      [data-theme="dark"] .navbar-collapse { box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+      [data-theme="dark"] #mobile-menu-icon { color: var(--text-main) !important; }
+    }
+
+    /* Cart Specific */
+    .cart-item-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+    .qty-btn { width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; }
   </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-  <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3 mb-5">
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm py-3 mb-4">
     <div class="container">
-      <a class="navbar-brand fw-bold fs-4 text-dark text-decoration-none" href="index.html">Lumina</a>
-      <div class="d-flex align-items-center ms-auto gap-4">
-        <a class="text-dark text-decoration-none" href="index.html">Shop</a>
-        <a class="text-dark text-decoration-none" href="categories.html">Categories</a>
-        <a class="text-dark text-decoration-none" href="about.html">About</a>
-        <a href="cart.html" class="btn btn-light position-relative border-0 fw-bold text-primary">
-          🛒 Cart
-          <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
-        </a>
+      <a class="navbar-brand fw-bold fs-4 text-custom text-decoration-none" href="index.html">
+        <i class="bi bi-box-seam-fill me-1"></i> Lumina
+      </a>
+      <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#luminaNav">
+        <i class="bi bi-list fs-1 text-dark" id="mobile-menu-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="luminaNav">
+        <div class="d-flex flex-column flex-lg-row align-items-center ms-auto gap-4 mt-4 mt-lg-0 pb-3 pb-lg-0">
+          <a class="text-dark text-decoration-none fw-medium" href="index.html">Shop</a>
+          <a class="text-dark text-decoration-none fw-medium" href="categories.html">Categories</a>
+          <a class="text-dark text-decoration-none fw-medium" href="about.html">About</a>
+          <a class="text-dark text-decoration-none fw-medium" href="login.html">Login</a>
+          
+          <a href="wishlist.html" class="text-dark text-decoration-none position-relative fw-bold mt-2 mt-lg-0">
+            Wishlist <span id="wishlist-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+          </a>
+          <div class="d-flex flex-wrap align-items-center gap-3 mt-2 mt-lg-0 justify-content-center">
+            <a href="cart.html" class="btn btn-light text-custom position-relative border-0 fw-bold px-3">
+              🛒 Cart <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+            </a>
+            <a class="text-dark text-decoration-none d-none d-lg-inline-block" href="profile.html"><i class="bi bi-person-circle fs-5"></i></a>
+            <a class="text-dark text-decoration-none fw-medium d-lg-none" href="profile.html">Profile</a>
+            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-circle px-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dark Mode">
+              <i id="theme-icon" class="bi bi-moon-fill"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
 
-  <main class="container py-4">
-    <div class="row">
-      <div class="col-lg-8 mb-4">
-        <h2 class="fw-bold mb-4">Shopping Cart</h2>
-        <div class="card border-0 shadow-sm">
-          <div class="card-body p-4" id="cart-items"></div>
+  <main class="container py-4 flex-grow-1">
+    <div id="cart-main-area">
+      <h2 class="fw-bold mb-4 text-dark">Your Shopping Cart</h2>
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div id="cart-items-container" class="d-flex flex-column gap-3"></div>
+          <div id="cross-sell-section" class="mt-5 d-none">
+            <h4 class="fw-bold mb-3 fs-5 border-bottom pb-2 text-dark">You Might Also Like</h4>
+            <div class="row g-3" id="cross-sell-container"></div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm p-4 sticky-top" style="top: 100px;">
+            <h5 class="fw-bold mb-4 text-dark">Order Summary</h5>
+            <div class="mb-4 bg-light p-3 rounded border">
+              <label class="form-label small fw-bold text-muted mb-2">Have a promo code?</label>
+              <div class="input-group">
+                <input type="text" id="promo-input" class="form-control promo-input" placeholder="e.g. LUMINA20">
+                <button class="btn btn-dark fw-bold px-3" type="button" onclick="applyPromo()">Apply</button>
+              </div>
+              <div id="promo-message" class="small mt-2 fw-bold d-none"></div>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Subtotal</span><span id="cart-subtotal" class="fw-bold text-dark">₹0.00</span>
+            </div>
+            
+            <div id="discount-row" class="d-flex justify-content-between mb-3 text-success d-none align-items-center">
+              <span>Discount <span id="discount-label" class="badge bg-success ms-1"></span> <i class="bi bi-x-circle-fill ms-1" style="cursor: pointer;" onclick="removePromo()"></i></span>
+              <span id="cart-discount" class="fw-bold">-₹0.00</span>
+            </div>
+
+            <div class="d-flex justify-content-between mb-4 border-top pt-3">
+              <span class="fw-bold fs-5 text-dark">Total</span>
+              <span id="cart-total" class="fw-bold fs-5 text-custom">₹0.00</span>
+            </div>
+            <!-- Using accent color for checkout mimicking Flipkart style -->
+            <button id="checkout-btn" class="btn btn-accent w-100 py-3 fw-bold shadow-sm" onclick="initiateCheckout()">Proceed to Checkout</button>
+          </div>
         </div>
       </div>
-      
-      <div class="col-lg-4 mt-5 pt-3">
-        <div class="card border-0 shadow-sm bg-white p-4">
-          <h5 class="fw-bold mb-4">Order Summary</h5>
-          <div class="d-flex justify-content-between mb-3 border-bottom pb-3">
-            <span class="text-muted">Subtotal</span>
-            <span id="cart-total" class="fw-bold">$0.00</span>
+    </div>
+
+    <div class="row g-4 d-none" id="checkout-container">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 p-md-5">
+          <h4 class="fw-bold mb-4 text-dark" id="checkout-step-title">1. Shipping Details</h4>
+          <div class="progress mb-4 bg-light" style="height: 4px;">
+            <div id="checkout-progress" class="progress-bar bg-custom transition-all" role="progressbar" style="width: 50%;"></div>
           </div>
-          <button class="btn btn-custom w-100 py-3 fw-bold" onclick="alert('Proceeding to checkout!')">
-            Checkout Now
-          </button>
+          
+          <form id="shipping-form" class="checkout-step">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label text-muted fw-bold small">Full Name</label>
+                <input type="text" class="form-control bg-light border py-2" placeholder="e.g., Darshan" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label text-muted fw-bold small">Address</label>
+                <input type="text" class="form-control bg-light border py-2" placeholder="e.g., Mysuru, Karnataka" required>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-5">
+              <button type="button" class="btn btn-link text-muted text-decoration-none px-0 fw-bold" onclick="cancelCheckout()">← Back to Cart</button>
+              <button type="submit" class="btn btn-custom px-4 py-2 fw-bold rounded-pill">Continue to Payment</button>
+            </div>
+          </form>
+          
+          <form id="payment-form" class="checkout-step d-none">
+            <h5 class="fw-bold mb-3 text-dark">Select Payment Method</h5>
+            <div class="mb-4 d-flex flex-wrap gap-4 border-bottom pb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="card" checked onchange="togglePaymentMethods()">
+                <label class="form-check-label fw-bold text-dark" for="payCard"><i class="bi bi-credit-card me-1"></i> Card</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="payUPI" value="upi" onchange="togglePaymentMethods()">
+                <label class="form-check-label fw-bold text-dark" for="payUPI"><i class="bi bi-phone me-1"></i> UPI</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="payCOD" value="cod" onchange="togglePaymentMethods()">
+                <label class="form-check-label fw-bold text-dark" for="payCOD"><i class="bi bi-cash me-1"></i> Cash on Delivery</label>
+              </div>
+            </div>
+
+            <div id="card-details" class="mb-3 payment-details-block">
+              <div class="mb-3">
+                <label class="form-label text-muted fw-bold small">Card Number</label>
+                <input type="text" class="form-control bg-light border py-2" id="cardInput" placeholder="1234 5678 9012 3456" required inputmode="numeric" pattern="[0-9]{16}" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+              </div>
+              <div class="row g-2">
+                <div class="col-6">
+                  <label class="form-label text-muted fw-bold small">Expiry Date</label>
+                  <input type="text" class="form-control bg-light border py-2" id="expiryInput" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="col-6">
+                  <label class="form-label text-muted fw-bold small">CVV</label>
+                  <input type="password" class="form-control bg-light border py-2" id="cvvInput" placeholder="123" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                </div>
+              </div>
+            </div>
+
+            <div id="upi-details" class="mb-3 payment-details-block d-none">
+              <label class="form-label text-muted fw-bold small">UPI ID</label>
+              <input type="text" class="form-control bg-light border py-2" id="upiInput" placeholder="username@upi" pattern="[a-zA-Z0-9.\-_]+@[a-zA-Z]+" title="Valid UPI required">
+            </div>
+
+            <div id="cod-details" class="mb-3 payment-details-block d-none">
+              <div class="alert alert-success border py-3 mb-0 fw-medium">
+                <i class="bi bi-info-circle-fill me-2"></i> You will pay with cash upon delivery.
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-5">
+              <button type="button" class="btn btn-link text-muted text-decoration-none px-0 fw-bold" onclick="showStep(1)">← Back</button>
+              <button type="submit" class="btn btn-accent px-5 py-2 fw-bold rounded-pill shadow-sm">Place Order</button>
+            </div>
+          </form>
         </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm p-4 sticky-top" style="top: 100px;">
+          <h5 class="fw-bold mb-4 text-dark">Checkout Summary</h5>
+          <div id="checkout-summary-items" class="mb-4 d-flex flex-column gap-2 border-bottom pb-3"></div>
+          <div id="checkout-discount-row" class="d-flex justify-content-between text-success d-none mb-2 align-items-center">
+            <span>Discount <span id="checkout-discount-label" class="badge bg-success ms-1"></span></span>
+            <span id="checkout-discount-amount" class="fw-bold"></span>
+          </div>
+          <div class="d-flex justify-content-between border-top pt-2 mt-2">
+            <span class="fw-bold fs-5 text-dark">Total</span>
+            <span id="checkout-final-total" class="fw-bold fs-5 text-custom">₹0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="success-container" class="d-none text-center py-5 shadow-sm rounded card border-0 p-5">
+      <h2 class="text-success fw-bold mb-3">🎉 Order Placed Successfully!</h2>
+      <p class="text-muted mb-4 fs-5">Thank you for shopping with Lumina.</p>
+      <div>
+        <a href="profile.html" class="btn btn-outline-dark px-4 py-2 fw-bold me-2 text-dark">View Orders</a>
+        <a href="index.html" class="btn btn-custom px-4 py-2 fw-bold">Continue Shopping</a>
       </div>
     </div>
   </main>
 
-  <script>
-    function renderCart() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      let container = document.getElementById('cart-items');
-      let badge = document.getElementById('cart-badge');
-      let total = 0;
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="border-top mt-5 pt-5 pb-4 shadow-sm">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="fw-bold text-custom mb-3"><i class="bi bi-box-seam-fill me-1"></i> Lumina</h5>
+          <p class="text-muted small pe-md-4">Your one-stop destination for premium, minimalist essentials. Redefining modern consumerism with carefully curated collections.</p>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">Shop</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="categories.html" class="text-muted text-decoration-none">All Categories</a></li>
+            <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Featured Products</a></li>
+            <li class="mb-2"><a href="cart.html" class="text-muted text-decoration-none">Your Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3 text-dark">About</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">Our Story</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Terms of Service</a></li>
+            <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" class="text-muted fs-5"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="text-muted fs-5"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-top pt-3 mt-4 text-center small text-muted">
+        &copy; 2026 Lumina E-Commerce. All rights reserved.
+      </div>
+    </div>
+  </footer>
 
-      if (cart.length > 0) {
-        badge.innerText = cart.length;
-        badge.classList.remove('d-none');
-      } else {
-        badge.classList.add('d-none');
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const PROMO_CODES = { 'LUMINA20': 0.20, 'WELCOME10': 0.10, 'LUMINA50': 0.50 };
+    let currentDiscountMultiplier = 0; let currentPromoCode = ''; let finalCalculatedTotal = 0;
+
+    document.getElementById('expiryInput').addEventListener('input', function (e) {
+      this.value = this.value.replace(/[^0-9]/g, '');
+      if (this.value.length > 2) this.value = this.value.slice(0, 2) + '/' + this.value.slice(2);
+    });
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+
+    function togglePaymentMethods() {
+      document.querySelectorAll('.payment-details-block').forEach(el => el.classList.add('d-none'));
+      document.getElementById('cardInput').removeAttribute('required');
+      document.getElementById('upiInput').removeAttribute('required');
+
+      const selected = document.querySelector('input[name="paymentMethod"]:checked').value;
+      if (selected === 'card') {
+        document.getElementById('card-details').classList.remove('d-none');
+        document.getElementById('cardInput').setAttribute('required', 'true');
+        document.getElementById('cardInput').focus();
+      } else if (selected === 'upi') {
+        document.getElementById('upi-details').classList.remove('d-none');
+        document.getElementById('upiInput').setAttribute('required', 'true');
+        document.getElementById('upiInput').focus();
+      } else if (selected === 'cod') {
+        document.getElementById('cod-details').classList.remove('d-none');
       }
+    }
+
+    function applyPromo() {
+      const inputVal = document.getElementById('promo-input').value.trim().toUpperCase();
+      const msgEl = document.getElementById('promo-message');
+      if (PROMO_CODES[inputVal]) {
+        currentDiscountMultiplier = PROMO_CODES[inputVal]; currentPromoCode = inputVal;
+        msgEl.textContent = `Promo applied! You get ${currentDiscountMultiplier * 100}% off.`;
+        msgEl.className = 'small mt-2 fw-bold text-success'; msgEl.classList.remove('d-none');
+        document.getElementById('promo-input').value = ''; renderCart();
+      } else {
+        currentDiscountMultiplier = 0; currentPromoCode = '';
+        msgEl.textContent = 'Invalid promo.'; msgEl.className = 'small mt-2 fw-bold text-danger'; msgEl.classList.remove('d-none');
+        renderCart();
+      }
+    }
+
+    function removePromo() {
+      currentDiscountMultiplier = 0; currentPromoCode = '';
+      document.getElementById('promo-message').classList.add('d-none'); renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items-container');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      let cart = JSON.parse(localStorage.getItem('lumina_cart')) || [];
+      container.innerHTML = ''; let subtotal = 0;
 
       if (cart.length === 0) {
-        container.innerHTML = "<p class='text-muted text-center py-4'>Your cart is empty.</p>";
-        document.getElementById('cart-total').innerText = "$0.00";
-        return;
+        container.innerHTML = `<div class="text-center py-5 card border-0 shadow-sm"><h5 class="text-muted mb-3">Your cart is empty</h5><a href="index.html" class="btn btn-custom mx-auto px-4">Browse Products</a></div>`;
+        document.getElementById('cart-subtotal').textContent = '₹0.00'; document.getElementById('cart-total').textContent = '₹0.00';
+        document.getElementById('discount-row').classList.add('d-none'); checkoutBtn.disabled = true;
+        document.getElementById('cross-sell-section').classList.add('d-none'); return;
       }
 
-      let html = '';
+      checkoutBtn.disabled = false;
       cart.forEach((item, index) => {
-        total += item.price;
-        html += `
-          <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
-            <img src="${item.img}" alt="${item.name}" class="rounded shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
-            <div class="ms-4 flex-grow-1">
-              <h6 class="fw-bold mb-1">${item.name}</h6>
-              <span class="text-muted">$${item.price}</span>
+        let qty = item.quantity || 1; let itemTotal = item.price * qty; subtotal += itemTotal;
+        const linkedProduct = globalProducts.find(p => p.name === item.name);
+        const pid = linkedProduct ? linkedProduct.id : '';
+
+        container.innerHTML += `
+          <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+              <a href="product-detail.html?id=${pid}"><img src="${item.image}" alt="${item.name}" class="cart-item-img"></a>
+              <div class="flex-grow-1 text-center text-md-start">
+                <a href="product-detail.html?id=${pid}" class="text-decoration-none text-dark"><h6 class="fw-bold mb-1">${item.name}</h6></a>
+                <span class="text-custom fw-bold">₹${itemTotal.toFixed(2)}</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 bg-light border rounded px-2 py-1">
+                <button class="btn btn-sm btn-outline-secondary qty-btn border-0" onclick="changeQty(${index}, -1)">-</button>
+                <span class="fw-bold px-2 text-dark">${qty}</span>
+                <button class="btn btn-sm btn-outline-secondary qty-btn border-0" onclick="changeQty(${index}, 1)">+</button>
+              </div>
+              <button class="btn btn-sm btn-light border text-danger" onclick="changeQty(${index}, -999)"><i class="bi bi-trash3"></i></button>
             </div>
-            <button class="btn btn-sm text-danger fw-bold" onclick="removeItem(${index})">Remove</button>
-          </div>
-        `;
+          </div>`;
       });
 
-      container.innerHTML = html;
-      document.getElementById('cart-total').innerText = "$" + total.toFixed(2);
+      let discountAmount = subtotal * currentDiscountMultiplier;
+      finalCalculatedTotal = subtotal - discountAmount;
+      document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      
+      if (currentDiscountMultiplier > 0) {
+        document.getElementById('discount-row').classList.remove('d-none'); document.getElementById('discount-row').classList.add('d-flex');
+        document.getElementById('discount-label').textContent = currentPromoCode;
+        document.getElementById('cart-discount').textContent = `-₹${discountAmount.toFixed(2)}`;
+        document.getElementById('cart-total').innerHTML = `<span class="text-muted text-decoration-line-through fs-6 me-2 fw-normal">₹${subtotal.toFixed(2)}</span>₹${finalCalculatedTotal.toFixed(2)}`;
+      } else {
+        document.getElementById('discount-row').classList.add('d-none'); document.getElementById('discount-row').classList.remove('d-flex');
+        document.getElementById('cart-total').textContent = `₹${finalCalculatedTotal.toFixed(2)}`;
+      }
+      renderCrossSell(cart);
     }
 
-    function removeItem(index) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.splice(index, 1);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCart();
+    function renderCrossSell(cart) {
+      const crossSellSection = document.getElementById('cross-sell-section');
+      const crossSellContainer = document.getElementById('cross-sell-container');
+      crossSellSection.classList.remove('d-none');
+
+      const cartItemNames = cart.map(item => item.name);
+      const availableProducts = globalProducts.filter(p => !cartItemNames.includes(p.name));
+      let selected = []; const remaining = availableProducts.filter(p => !selected.includes(p));
+      remaining.sort(() => 0.5 - Math.random());
+      while (selected.length < 3 && remaining.length > 0) selected.push(remaining.pop());
+
+      crossSellContainer.innerHTML = selected.map(item => {
+        const displayImage = (item.images && item.images.length > 0) ? item.images[0] : item.image;
+        return `
+          <div class="col-6 col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-2 text-center">
+              <a href="product-detail.html?id=${item.id}"><img src="${displayImage}" alt="${item.name}" class="card-img-top rounded mb-2 mx-auto" style="height: 120px; width: 100%; object-fit: cover;"></a>
+              <div class="card-body p-2 d-flex flex-column">
+                <a href="product-detail.html?id=${item.id}" class="text-decoration-none text-dark"><h6 class="fw-bold mb-1 small text-truncate">${item.name}</h6></a>
+                <span class="text-custom fw-bold small mb-2">₹${item.price.toFixed(2)}</span>
+                <button class="btn btn-sm btn-outline-custom mt-auto w-100 fw-bold rounded-pill" onclick="addCrossSellItem('${item.name.replace(/'/g, "\\'")}', ${item.price}, '${displayImage}')">Add</button>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
     }
 
-    renderCart();
+    function addCrossSellItem(name, price, image) { addToCart(name, price, image); renderCart(); }
+    function changeQty(index, delta) {
+      let cart = JSON.parse(localStorage.getItem('lumina_cart')) || [];
+      cart[index].quantity = (cart[index].quantity || 1) + delta;
+      if (cart[index].quantity <= 0) cart.splice(index, 1);
+      localStorage.setItem('lumina_cart', JSON.stringify(cart));
+      renderCart(); updateGlobalBadges();
+    }
+
+    function initiateCheckout() {
+      const cart = JSON.parse(localStorage.getItem('lumina_cart')) || [];
+      document.getElementById('cart-main-area').classList.add('d-none');
+      document.getElementById('checkout-container').classList.remove('d-none');
+      
+      let subtotal = 0;
+      document.getElementById('checkout-summary-items').innerHTML = cart.map(item => {
+        let qty = item.quantity || 1; subtotal += item.price * qty;
+        return `<div class="d-flex justify-content-between"><span class="text-muted">${qty}x ${item.name}</span><span class="fw-bold text-dark">₹${(item.price * qty).toFixed(2)}</span></div>`;
+      }).join('');
+      
+      if (currentDiscountMultiplier > 0) {
+        let discountAmount = subtotal * currentDiscountMultiplier;
+        document.getElementById('checkout-discount-row').classList.remove('d-none');
+        document.getElementById('checkout-discount-row').classList.add('d-flex');
+        document.getElementById('checkout-discount-label').textContent = currentPromoCode;
+        document.getElementById('checkout-discount-amount').textContent = `-₹${discountAmount.toFixed(2)}`;
+      } else {
+        document.getElementById('checkout-discount-row').classList.add('d-none');
+        document.getElementById('checkout-discount-row').classList.remove('d-flex');
+      }
+      document.getElementById('checkout-final-total').textContent = `₹${finalCalculatedTotal.toFixed(2)}`;
+      showStep(1);
+    }
+
+    function cancelCheckout() { document.getElementById('checkout-container').classList.add('d-none'); document.getElementById('cart-main-area').classList.remove('d-none'); }
+    function showStep(step) {
+      document.getElementById('shipping-form').classList.add('d-none'); document.getElementById('payment-form').classList.add('d-none');
+      if (step === 1) { document.getElementById('shipping-form').classList.remove('d-none'); document.getElementById('checkout-step-title').textContent = "1. Shipping Details"; document.getElementById('checkout-progress').style.width = "50%"; } 
+      else if (step === 2) { document.getElementById('payment-form').classList.remove('d-none'); document.getElementById('checkout-step-title').textContent = "2. Payment Details"; document.getElementById('checkout-progress').style.width = "100%"; }
+    }
+
+    document.getElementById('shipping-form').addEventListener('submit', (e) => { e.preventDefault(); showStep(2); });
+    document.getElementById('payment-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...'; btn.disabled = true;
+
+      setTimeout(() => {
+        const cart = JSON.parse(localStorage.getItem('lumina_cart')) || [];
+        if(cart.length > 0) {
+          const orders = JSON.parse(localStorage.getItem('lumina_orders')) || [];
+          orders.unshift({ id: 'ORD-' + Math.floor(100000 + Math.random() * 900000), date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }), items: cart, total: finalCalculatedTotal, promoUsed: currentPromoCode || null }); 
+          localStorage.setItem('lumina_orders', JSON.stringify(orders));
+        }
+        localStorage.removeItem('lumina_cart');
+        document.getElementById('checkout-container').classList.add('d-none');
+        document.getElementById('success-container').classList.remove('d-none');
+        updateGlobalBadges();
+      }, 1500);
+    });
   </script>
 </body>
 </html>
